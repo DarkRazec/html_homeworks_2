@@ -253,20 +253,36 @@
         <div class="row text-center">
 
             <div class="col-9">
+<!--                <table class="table table-hover">-->
+<!--                    <tr>-->
+<!--                        <td class="w-25">Страна</td>-->
+<!--                        <td>USA</td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="w-25">ИНН</td>-->
+<!--                        <td>91-1144442</td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="w-25">Адрес</td>-->
+<!--                        <td>Redmond,WA,98052-6399</td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+                {% for contact in contacts %}
                 <table class="table table-hover">
                     <tr>
                         <td class="w-25">Страна</td>
-                        <td>USA</td>
+                        <td>{{ contact.country }}</td>
                     </tr>
                     <tr>
-                        <td class="w-25">ИНН</td>
-                        <td>91-1144442</td>
+                        <td class="w-25">Телефон</td>
+                        <td>{{ contact.phone }}</td>
                     </tr>
                     <tr>
                         <td class="w-25">Адрес</td>
-                        <td>Redmond,WA,98052-6399</td>
+                        <td>{{ contact.address }}</td>
                     </tr>
                 </table>
+                {% endfor %}
             </div>
 
             <div class="col-3">
