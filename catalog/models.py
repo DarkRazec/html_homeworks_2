@@ -1,3 +1,48 @@
 from django.db import models
 
-# Create your models here.
+NULLABLE = {'blank': True, 'null': True}
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, verbose_name='название')
+    desc = models.TextField(verbose_name='описание')
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
+        ordering = ('name',)
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=50, verbose_name='название')
+    desc = models.TextField(verbose_name='описание')
+    image = models.ImageField(upload_to='products/', verbose_name='изображение', **NULLABLE)
+    category = models.ForeignKey(Category, verbose_name='категория', on_delete=models.SET_NULL, **NULLABLE)
+    price = models.DecimalField(default=0, max_digits=6, decimal_places=2, verbose_name='цена за шт.')
+    created_at = models.DateField(auto_now_add=True, verbose_name='дата создания')
+    updated_at = models.DateField(auto_now=True, verbose_name='дата изменения')
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'
+        ordering = ('name',)
+
+
+class Contact(models.Model):
+    country = models.CharField(max_length=50, verbose_name='страна')
+    phone = models.CharField(default='test', max_length=16)
+    address = models.CharField(max_length=100, verbose_name='Почтовый адрес')
+
+    def __str__(self):
+        return f'{self.phone}'
+
+    class Meta:
+        verbose_name = 'контактная информация'
+        verbose_name_plural = verbose_name
+        ordering = ('phone',)
