@@ -1,0 +1,50 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-9">
+        {% for contact in object_list %}
+        <table class="table table-hover">
+            <tr>
+                <td class="w-25">Страна</td>
+                <td>{{ contact.country }}</td>
+            </tr>
+            <tr>
+                <td class="w-25">Телефон</td>
+                <td>{{ contact.phone }}</td>
+            </tr>
+            <tr>
+                <td class="w-25">Адрес</td>
+                <td>{{ contact.address }}</td>
+            </tr>
+        </table>
+        {% endfor %}
+    </div>
+
+    <div class="col-3">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Свяжитесь с нами</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="" class="form-floating">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя"
+                               required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="phone" class="form-control" id="phone"
+                               placeholder="Контактный телефон" required>
+                    </div>
+                    <div class="mb-3">
+                                <textarea name="message" class="form-control" id="message"
+                                          placeholder="Введите сообщение" required></textarea>
+                    </div>
+                    <button type="submit" class="w-100 btn btn btn-outline-success">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
