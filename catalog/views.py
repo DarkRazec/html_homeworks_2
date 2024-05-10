@@ -1,11 +1,30 @@
 from django.shortcuts import render
 
-from catalog.models import Product, Contact
+from catalog.models import Product, Contact, Category
 
 
 def homepage(request):
+    category_list = Category.objects.all()
+    if request.method == "POST":
+        name = request.POST.get("name")
+        desc = request.POST.get("desc")
+        image = request.FILES.get("image")
+        try:
+            category = Category.objects.get(id=request.POST.get("category"))
+        except ValueError:
+            category = None
+        price = request.POST.get("price")
+
+        Product.objects.create(
+            name=name,
+            desc=desc,
+            image=image,
+            category=category,
+            price=price,
+        )
     context = {
-        'object_list': Product.objects.all(),
+        'product_list': Product.objects.all(),
+        'catalog_list': category_list,
         'title': 'Главная',
     }
     return render(request, 'catalog/homepage.html', context)
@@ -18,6 +37,30 @@ def product(request, pk):
         'title': prod.name,
     }
     return render(request, 'catalog/product.html', context)
+
+
+def add_product(request):
+    category_list = Category.objects.all()
+    if request.method == "POST":
+        name = request.POST.get("name")
+        desc = request.POST.get("desc")
+        image = request.FILES.get("image")
+        category = Category.objects.get(id=request.POST.get("category"))
+        price = request.POST.get("price")
+
+        Product.objects.create(
+            name=name,
+            desc=desc,
+            image=image,
+            category=category,
+            price=price,
+        )
+
+    context = {
+        'object_list': category_list,
+        'title': 'Добавить продукт'
+    }
+    return render(request, 'catalog/add_product.html', context)
 
 
 def contact(request):
