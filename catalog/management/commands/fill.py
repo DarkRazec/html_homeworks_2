@@ -10,13 +10,13 @@ class Command(BaseCommand):
     @staticmethod
     def json_read_categories():
         # Получаем данные из фикстур с категориями
-        with open('data/category_data.json', encoding='utf-8') as f:
+        with open('data/category_data.json', encoding='utf-16') as f:
             return json.load(f)
 
     @staticmethod
     def json_read_products():
         # Получаем данные из фикстур с продуктами
-        with open('data/product_data.json', encoding='utf-8') as f:
+        with open('data/product_data.json', encoding='utf-16') as f:
             return json.load(f)
 
     def handle(self, *args, **options):
