@@ -10,7 +10,7 @@ class Post(models.Model):
     desc = models.TextField(verbose_name="описание")
     image = models.ImageField(upload_to='new_images', verbose_name="изображение", **NULLABLE)
     view_count = models.PositiveIntegerField(default=0, verbose_name="счетчик просмотров")
-    created_at = models.DateField(verbose_name="дата создания", auto_now=True)
+    created_at = models.DateField(verbose_name="дата создания", auto_now_add=True)
     updated_at = models.DateField(auto_now=True, verbose_name='дата изменения')
     is_published = models.BooleanField(default=True, verbose_name="опубликован")
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name="URL", **NULLABLE)
