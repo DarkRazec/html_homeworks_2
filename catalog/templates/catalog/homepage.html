@@ -168,7 +168,7 @@
             {% for product in product_list %}
             <tr>
                 <td>{{ product.id }}</td>
-                <td><a id="lol" href="{% url 'catalog:view' product.pk %}">{{ product.name }}</a></td>
+                <td><a id="lol" href="{% url 'catalog:product_view' product.pk %}">{{ product.name }}</a></td>
                 <td>{{ product.desc | truncatechars:100 }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.price }}</td>
