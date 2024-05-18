@@ -61,6 +61,9 @@ class BlogListView(ListView):
     model = Post
     fields = ('name', 'desc', 'image')
     template_name = 'blog/blog_list.html'
+    extra_context = {
+        'title': 'Блог'
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()
