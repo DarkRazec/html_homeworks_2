@@ -8,7 +8,7 @@
             <div class="row mb-3">
                 <div class="btn-group">
                     <button type="submit" class="btn btn-danger">V Удалить</button>
-                    <a href="{% url 'blog:view' %}" class="btn btn-primary">X Отменить</a>
+                    <a href="{% url 'blog:detail' object.pk %}" class="btn btn-primary">X Отменить</a>
                 </div>
             </div>
 
