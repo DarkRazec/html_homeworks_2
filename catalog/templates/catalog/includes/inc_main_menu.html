@@ -3,8 +3,7 @@
     <li class="nav-item">
         <a
                 href="{% url 'catalog:homepage' %}"
-                class="{% if url_name == 'homepage' %}nav-link active{% endif %}
-                    {% if url_name != 'homepage' %}nav-link text-white{% endif %}">
+                class="{% if url_name == 'homepage' %}nav-link active{% else %}nav-link text-white{% endif %}">
             <svg class="bi me-2" width="16" height="16">
                 <use xlink:href="#home"/>
             </svg>
@@ -13,12 +12,20 @@
     </li>
     <li>
         <a href="{% url 'catalog:contact' %}"
-           class="{% if url_name == 'contact' %}nav-link active{% endif %}
-                    {% if url_name != 'contact' %}nav-link text-white{% endif %}">
+           class="{% if url_name == 'contact' %}nav-link active{% else %}nav-link text-white{% endif %}">
             <svg class="bi me-2" width="16" height="16">
                 <use xlink:href="#people-circle"/>
             </svg>
             Контакты
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'blog:view' %}"
+           class="{% if url_name == 'view' %}nav-link active{% else %}nav-link text-white{% endif %}">
+            <svg class="bi me-2" width="16" height="16">
+                <use xlink:href="#people-circle"/>
+            </svg>
+            Блог
         </a>
     </li>
 </ul>

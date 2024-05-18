@@ -1,0 +1,38 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container" style="width:50%">
+    <div class="row text-center">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" name="name" class="form-control" id="name"
+                               placeholder="Введите название" required>
+                    </div>
+                    <div class="mb-3">
+                                <textarea name="desc" class="form-control" id="desc"
+                                          placeholder="Введите текст" required></textarea>
+                    </div>
+                    <div class="mb-5">
+                        <input class="form-control" type="file" id="formFile" name="image">
+                    </div>
+                    <div class="row">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                            {% with url_name=request.resolver_match.url_name %}
+                            {% if url_name == 'create' %}
+                            <a href="{% url 'blog:view'%}" class="btn btn-primary">Отмена</a>
+                            {%else%}
+                            <a href="{% url 'blog:detail' object.pk %}" class="btn btn-primary">Отмена</a>
+                            {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
