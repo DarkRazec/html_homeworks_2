@@ -204,7 +204,7 @@
                     <div class="mb-3">
                         <select class="form-select" name="category">
                             <option selected></option>
-                            {% for category in catalog_list %}
+                            {% for category in category_list %}
                             <option value="{{ category.id }}">{{ category.name }}</option>
                             {% endfor %}
                         </select>
