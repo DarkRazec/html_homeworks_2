@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, TemplateView, CreateView
+from django.views.generic import DetailView, TemplateView, CreateView, DeleteView
 
 from catalog.models import Product, Contact, Category
 
@@ -7,6 +7,12 @@ from catalog.models import Product, Contact, Category
 class ProductDetailView(DetailView):
     model = Product
     template_name = "catalog/product.html"
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = "catalog/product_confirm_delete.html"
+    success_url = reverse_lazy('catalog:homepage')
 
 
 class HomePageView(CreateView):

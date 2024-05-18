@@ -18,6 +18,9 @@
                         <div class="col-6">
                             <a href="{% url 'catalog:homepage' %}" class="btn btn-primary px-md-4"><- Назад</a>
                         </div>
+                        <div class="col-6">
+                            <a href="{% url 'catalog:product_delete' object.pk %}" class="btn btn btn-danger px-md-4">Удалить X</a>
+                        </div>
                     </div>
                 </div>
             </div>
