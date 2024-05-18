@@ -168,7 +168,7 @@
             {% for product in product_list %}
             <tr>
                 <td>{{ product.id }}</td>
-                <td><a id="lol" href="{% url 'catalog:product' product.pk %}">{{ product.name }}</a></td>
+                <td><a id="lol" href="{% url 'catalog:view' product.pk %}">{{ product.name }}</a></td>
                 <td>{{ product.desc | truncatechars:100 }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.price }}</td>
@@ -178,7 +178,7 @@
             </tbody>
         </table>
         <p class="d-grid gap-3 d-md-flex">
-            <a href="#add" type="button" class="w-100 btn btn-lg btn-outline-primary">Добавить продукт
+            <a href="#add" class="w-100 btn btn-lg btn-outline-primary">Добавить продукт
             </a>
         </p>
     </div>
