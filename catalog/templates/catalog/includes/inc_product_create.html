@@ -2,31 +2,7 @@
 {% csrf_token %}
 {{ formset.management_form }}
 <div class="mb-3">
-    <input type="text" name="name" class="form-control" id="name"
-           placeholder="Введите название продукта" required>
-    <p style="color: #cf2121e0;">{{form.name.errors|striptags}}</p>
-</div>
-
-<div class="mb-4">
-    <textarea name="desc" class="form-control" id="desc" placeholder="Введите описание продукта" required></textarea>
-    <p style="color: #cf2121e0;">{{form.desc.errors|striptags}}</p>
-</div>
-<div class="mb-3">
-    <input class="form-control" type="file" id="formFile" name="image">
-</div>
-<div class="mb-3">
-    <select class="form-select" name="category">
-        <option selected></option>
-        {% for category in category_list %}
-        <option value="{{ category.id }}">{{ category.name }}</option>
-        {% endfor %}
-    </select>
-</div>
-<div class="input-group mb-3">
-    <span class="input-group-text">₽</span>
-    <input type="text" name="price" class="form-control" id="price"
-           placeholder="Введите цену продукта" aria-label="Amount (to the nearest ruble)" required>
-    <span class="input-group-text">.00</span>
+    {{ form.as_p }}
 </div>
 <div class="mb-3">
     {% for form in formset.forms %}

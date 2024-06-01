@@ -74,9 +74,6 @@
         -ms-transition: all ease .5s;
         -o-transition: all ease .5s;
         transition: all ease .5s;
-        .btn {
-            width: 34rem;
-        }
     }
     /* появление окна и затемнение фона */
     .overlay:target+.popup {
@@ -200,7 +197,9 @@
             <div class="container">
                 <form method="post" action="" class="form-floating" enctype="multipart/form-data">
                     {% include 'catalog/includes/inc_product_create.html' %}
-                    <button type="submit" class="btn btn-primary">Добавить</button>
+                    <div class="row">
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
                 </form>
             </div>
             <a class="close" title="Закрыть" href="#"></a>
