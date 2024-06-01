@@ -54,7 +54,7 @@ class BlogUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('blog:detail', args=[self.kwargs.get('pk')])
+        return reverse('blog:detail', args=[self.get('pk')])
 
 
 class BlogListView(ListView):

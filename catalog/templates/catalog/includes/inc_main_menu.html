@@ -1,9 +1,8 @@
 {% with url_name=request.resolver_match.url_name %}
 <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-        <a
-                href="{% url 'catalog:homepage' %}"
-                class="{% if url_name == 'homepage' %}nav-link active{% else %}nav-link text-white{% endif %}">
+        <a href="{% url 'catalog:homepage' %}"
+           class="{% if url_name == 'homepage' %}nav-link active{% else %}nav-link text-white{% endif %}">
             <svg class="bi me-2" width="16" height="16">
                 <use xlink:href="#home"/>
             </svg>
