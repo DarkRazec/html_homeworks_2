@@ -31,19 +31,19 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         exclude = ('created_at', 'updated_at',)
 
     @classmethod
-    def cleaning(self, data, data_name):
+    def cleaning(cls, data):
         for word in BAD_WORDS:
             if word in data:
                 raise forms.ValidationError('Введено запрещенное слово')
 
     def clean_name(self):
         cleaned_data = self.cleaned_data.get('name')
-        self.cleaning(cleaned_data, 'name')
+        self.cleaning(cleaned_data)
         return cleaned_data
 
     def clean_desc(self):
         cleaned_data = self.cleaned_data.get('desc')
-        self.cleaning(cleaned_data, 'desc')
+        self.cleaning(cleaned_data)
         return cleaned_data
 
 
@@ -52,10 +52,16 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
         model = Version
         fields = '__all__'
 
-    # def clean_is_active(self):
-    #     cleaned_data = self.cleaned_data.get('is_active')
-    #     product = self.cleaned_data.get('product')
-    #     versions = Version.objects.filter(product=product, is_active=True).all()
-    #     if versions and cleaned_data:
-    #         raise forms.ValidationError('Активная версия уже существует')
-    #     return cleaned_data
+
+class VersionUpdateForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = '__all__'
+
+    def clean_is_active(self):
+        cleaned_data = self.cleaned_data.get('is_active')
+        product = self.cleaned_data.get('product')
+        versions = Version.objects.filter(product=product, is_active=True).first()
+        if versions and cleaned_data:
+            raise forms.ValidationError('Активная версия уже существует')
+        return cleaned_data

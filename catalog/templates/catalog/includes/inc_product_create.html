@@ -3,6 +3,10 @@
     #id_desc {
         height: 2rem;
     }
+    .errorlist {
+        color: #ed0b0bba;
+        margin: 0px 0px 8px;
+    }
 </style>
 {% csrf_token %}
 {{ formset.management_form }}
@@ -13,6 +17,15 @@
     {% for form in formset.forms %}
     <hr>
     {{ form.as_p }}
+    {% if not forloop.last %}
+    <script>
+      // Используем id для доступа к элементу и блокировки
+      var inputElement = document.getElementById('id_{{ form.prefix }}-name');
+      inputElement.setAttribute('readonly', true);
+      var inputElement = document.getElementById('id_{{ form.prefix }}-num');
+      inputElement.setAttribute('readonly', true);
+    </script>
+    {% endif %}
     {% endfor %}
 </div>
 {% endwith %}

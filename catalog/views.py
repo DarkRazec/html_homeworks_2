@@ -2,7 +2,7 @@ from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, TemplateView, CreateView, DeleteView, UpdateView
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, VersionUpdateForm
 from catalog.models import Product, Contact, Category, Version
 
 
@@ -24,13 +24,16 @@ class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "catalog/product_update.html"
+    extra_context = {
+        'title': 'Редактирование',
+    }
 
     def get_success_url(self):
         return reverse_lazy('catalog:product_view', args=[self.kwargs.get('pk')])
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionUpdateForm, extra=1)
         if self.request.method == 'POST':
             context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
         else:
@@ -44,7 +47,8 @@ class ProductUpdateView(UpdateView):
         if formset.is_valid():
             formset.instance = self.object
             formset.save()
-        return super().form_valid(form)
+            return super().form_valid(form)
+        return super().form_invalid(form)
 
 
 class ProductDeleteView(DeleteView):
@@ -79,7 +83,8 @@ class HomePageView(CreateView):
             self.object = form.save()
             formset.instance = self.object
             formset.save()
-        return super().form_valid(form)
+            return super().form_valid(form)
+        return super().form_invalid(form)
 
 
 class ContactTemplateView(TemplateView):

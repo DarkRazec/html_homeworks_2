@@ -4,7 +4,7 @@
 <div class="container">
     <form method="post" action="" class="form-floating" enctype="multipart/form-data">
         {% include 'catalog/includes/inc_product_create.html' %}
-        <div class="row">
+        <div class="row mb-3">
             <div class="btn-group">
                 <button type="submit" class="btn btn-success">Сохранить</button>
                 <a href="{% url 'catalog:product_view' object.pk %}" class="btn btn-primary px-md-4">Назад</a>
