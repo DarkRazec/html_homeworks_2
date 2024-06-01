@@ -1,0 +1,11 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container">
+    <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+        {% include 'catalog/includes/inc_product_create.html' %}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'catalog:product_view' object.pk %}" class="btn btn-primary px-md-4">Назад</a>
+    </form>
+</div>
+{% endblock %}
