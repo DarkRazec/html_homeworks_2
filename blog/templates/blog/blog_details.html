@@ -2,12 +2,15 @@
 {% load my_tags %}
 
 {% block content %}
+<head>
+    <title>{{ title }} ({{ object.slug }})</title>
+</head>
 <main class="row" style="width: auto;">
     <div class="container">
         <div class="row text-center">
             <div class="card" style="border-color: transparent;">
                 <div class="card-header">
-                    <h3>{{ object.name }} ({{ object.slug }})</h3>
+                    <h3>({{ object.slug }})</h3>
                 </div>
                 <div class="card-body">
                     <img src="{{ object.image|media_filter }}" class="image" alt="...">

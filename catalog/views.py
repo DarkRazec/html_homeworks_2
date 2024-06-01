@@ -11,22 +11,20 @@ class ProductDetailView(DetailView):
     template_name = "catalog/product.html"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context_data = super().get_context_data(**kwargs)
         try:
             version = Version.objects.filter(product=self.get_object(), is_active=True).first
         except Version.DoesNotExist:
             version = None
-        context['version'] = version
-        return context
+        context_data['version'] = version
+        context_data['title'] = f'Каталог: {self.get_object()}'
+        return context_data
 
 
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "catalog/product_update.html"
-    extra_context = {
-        'title': 'Редактирование',
-    }
 
     def get_success_url(self):
         return reverse_lazy('catalog:product_view', args=[self.kwargs.get('pk')])
@@ -39,6 +37,7 @@ class ProductUpdateView(UpdateView):
         else:
             context_data['formset'] = VersionFormset(instance=self.object)
         context_data['category_list'] = Category.objects.all()
+        context_data['title'] = f'Редактирование: {self.object}'
         return context_data
 
     def form_valid(self, form):
