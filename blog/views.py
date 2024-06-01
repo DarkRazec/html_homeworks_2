@@ -11,6 +11,9 @@ class BlogCreateView(CreateView):
     fields = ('name', 'desc', 'image')
     template_name = 'blog/blog_form.html'
     success_url = reverse_lazy('blog:view')
+    extra_context = {
+        'title': 'Блог: Создание новой статьи',
+    }
 
     def form_valid(self, form):
         if form.is_valid():
@@ -26,6 +29,11 @@ class BlogDetailView(DetailView):
     success_url = reverse_lazy('blog:view')
     slug_url_kwarg = 'slug'
     slug_field = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = f'Блог: {self.object}'
+        return context_data
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -44,7 +52,6 @@ class BlogUpdateView(UpdateView):
     model = Post
     fields = ('name', 'desc', 'image')
     template_name = 'blog/blog_form.html'
-    success_url = reverse_lazy("blog:view")
 
     def form_valid(self, form):
         if form.is_valid():
@@ -53,8 +60,13 @@ class BlogUpdateView(UpdateView):
             new_blog.save()
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = f'Редактирование: {self.object}'
+        return context_data
+
     def get_success_url(self):
-        return reverse('blog:detail', args=[self.get('pk')])
+        return reverse_lazy('blog:detail', args=[self.kwargs.get('pk')])
 
 
 class BlogListView(ListView):
