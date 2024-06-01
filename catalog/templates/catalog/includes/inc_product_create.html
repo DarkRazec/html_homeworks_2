@@ -1,4 +1,9 @@
 {% with url_name=request.resolver_match.url_name %}
+<style>
+    #id_desc {
+        height: 2rem;
+    }
+</style>
 {% csrf_token %}
 {{ formset.management_form }}
 <div class="mb-3">
