@@ -13,7 +13,7 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            version = Version.objects.get(product=self.get_object(), is_active=True)
+            version = Version.objects.filter(product=self.get_object(), is_active=True).first
         except Version.DoesNotExist:
             version = None
         context['version'] = version
