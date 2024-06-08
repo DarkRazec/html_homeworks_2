@@ -1,6 +1,5 @@
 from django import forms
 from django.forms import BooleanField
-from django.forms.utils import ErrorList
 
 from catalog.models import Product, Version
 
@@ -28,7 +27,7 @@ class StyleFormMixin:
 class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ('created_at', 'updated_at',)
+        exclude = ('created_at', 'updated_at', 'author')
 
     @classmethod
     def cleaning(cls, data):

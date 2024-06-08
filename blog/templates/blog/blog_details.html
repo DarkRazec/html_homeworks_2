@@ -18,6 +18,7 @@
                     <p class="card-text"> Кол-во просмотров: {{ object.view_count }}</p>
                     <p class="card-text"> Дата создания: {{ object.created_at }}</p>
                     <p class="card-text"> Дата изменения: {{ object.updated_at }}</p>
+                    <p class="card-text"> Автор: {{ object.author }}</p>
                     {% if object.is_published %}
                     <a href="{% url 'blog:activity' object.pk %}" class="btn btn-warning px-md-4">Снять активность</a>
                     {% else %}

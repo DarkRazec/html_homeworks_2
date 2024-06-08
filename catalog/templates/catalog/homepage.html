@@ -183,10 +183,12 @@
             {% endfor %}
             </tbody>
         </table>
+        {% if user.is_authenticated %}
         <p class="d-grid gap-3 d-md-flex">
             <a href="#add" class="w-100 btn btn-lg btn-outline-primary">Добавить продукт
             </a>
         </p>
+        {% endif %}
     </div>
 </main>
 
