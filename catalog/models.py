@@ -1,6 +1,6 @@
 from django.db import models
 
-NULLABLE = {'blank': True, 'null': True}
+from users.models import User, NULLABLE
 
 
 class Category(models.Model):
@@ -24,6 +24,7 @@ class Product(models.Model):
     price = models.DecimalField(default=0, max_digits=6, decimal_places=2, verbose_name='цена за шт.')
     created_at = models.DateField(auto_now_add=True, verbose_name='дата создания')
     updated_at = models.DateField(auto_now=True, verbose_name='дата изменения')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, **NULLABLE, verbose_name='Автор')
 
     def __str__(self):
         return f'{self.name}'

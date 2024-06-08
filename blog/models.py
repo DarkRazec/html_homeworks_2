@@ -2,7 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
-NULLABLE = {'blank': True, 'null': True}
+from catalog.models import NULLABLE
+from users.models import User
 
 
 class Post(models.Model):
@@ -14,6 +15,7 @@ class Post(models.Model):
     updated_at = models.DateField(auto_now=True, verbose_name='дата изменения')
     is_published = models.BooleanField(default=True, verbose_name="опубликован")
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name="URL", **NULLABLE)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Автор')
 
     def __str__(self):
         return self.name
