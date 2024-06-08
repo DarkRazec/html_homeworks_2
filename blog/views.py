@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.text import slugify
 from django.urls import reverse_lazy, reverse
@@ -6,7 +7,7 @@ from django.views.generic import CreateView, ListView, DetailView, DeleteView, U
 from blog.models import Post
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ('name', 'desc', 'image')
     template_name = 'blog/blog_form.html'
@@ -18,6 +19,7 @@ class BlogCreateView(CreateView):
     def form_valid(self, form):
         if form.is_valid():
             new_blog = form.save()
+            new_blog.author = self.request.user
             new_blog.slug = slugify(new_blog.name)
             new_blog.save()
         return super().form_valid(form)
@@ -42,13 +44,13 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'blog/blog_confirm_delete.html'
     success_url = reverse_lazy("blog:view")
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ('name', 'desc', 'image')
     template_name = 'blog/blog_form.html'
