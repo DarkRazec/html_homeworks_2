@@ -1,0 +1,36 @@
+{% with url_name=request.resolver_match.url_name %}
+<style>
+    .avatar {
+        vertical-align: middle;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+</style>
+{% if user.is_authenticated %}
+{% load my_tags %}
+<div class="d-flex">
+    <div class="btn-group dropup">
+        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ user.avatar|media_filter }}" class="avatar"
+                 onerror="this.onerror=null; this.src='{{'/users/fallback-avatar.png'|media_filter}}'">
+            {{ user.email }}
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <form method="post" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <button class="dropdown-item" type="submit">Выйти</button>
+                    <a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+{% else %}
+<div class="btn-group">
+    <a class="btn btn-dark" href="{% url 'users:login' %}">Войти</a>
+    <a class="btn btn-dark" href="{% url 'users:register' %}">Зарегестрироваться</a>
+</div>
+{% endif %}
+{% endwith %}
