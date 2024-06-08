@@ -1,12 +1,14 @@
 import secrets
 
 from django.conf import settings
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView
 
-from users.forms import UserRegisterForm, UserProfileForm
+from users.forms import UserRegisterForm, UserProfileForm, PasswordRecoveryForm
 from users.models import User
 
 
@@ -60,10 +62,14 @@ class ProfileView(UpdateView):
         return self.request.user
 
 
-def reset_password(request):
-    if request.method == 'POST':
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    form_class = PasswordRecoveryForm
+    template_name = 'users/password_recovery.html'
+    extra_context = {'title': 'Восстановление пароля'}
+
+    def post(self, request, *args, **kwargs):
         email = request.POST.get('email')
-        user = get_object_or_404(User, email=email)
+        user = User.objects.get(email=email)
         password = secrets.token_hex(8)
         user.set_password(password)
         user.save()
@@ -75,6 +81,4 @@ def reset_password(request):
             recipient_list=[user.email],
             fail_silently=False,
         )
-
         return render(request, 'users/reset_send.html')
-    return render(request, 'users/password_recovery.html')
