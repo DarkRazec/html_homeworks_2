@@ -24,6 +24,7 @@ class Product(models.Model):
     price = models.DecimalField(default=0, max_digits=6, decimal_places=2, verbose_name='цена за шт.')
     created_at = models.DateField(auto_now_add=True, verbose_name='дата создания')
     updated_at = models.DateField(auto_now=True, verbose_name='дата изменения')
+    is_published = models.BooleanField(default=True, verbose_name="опубликован")
     author = models.ForeignKey(User, on_delete=models.CASCADE, **NULLABLE, verbose_name='Автор')
 
     def __str__(self):
@@ -33,6 +34,17 @@ class Product(models.Model):
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
         ordering = ('name',)
+
+        permissions = [
+            (
+                'set_published',
+                'Can change is_published field'
+            ),
+            (
+                'change_category',
+                'Can change category'
+            )
+        ]
 
 
 class Contact(models.Model):
