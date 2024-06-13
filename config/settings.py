@@ -134,7 +134,7 @@ LOGIN_URL = '/users/login/'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = "kryurk@yandex.ru"
-EMAIL_HOST_PASSWORD = "zytatqnkrpwydyxw"
+EMAIL_HOST_PASSWORD = "pvhhazggqneyyyov"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
