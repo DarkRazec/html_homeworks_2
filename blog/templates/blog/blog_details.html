@@ -19,17 +19,23 @@
                     <p class="card-text"> Дата создания: {{ object.created_at }}</p>
                     <p class="card-text"> Дата изменения: {{ object.updated_at }}</p>
                     <p class="card-text"> Автор: {{ object.author }}</p>
-                    {% if object.is_published %}
+                    {% if object.is_published and perms.blog.change_post %}
                     <a href="{% url 'blog:activity' object.pk %}" class="btn btn-warning px-md-4">Снять активность</a>
                     {% else %}
+                    {% if perms.blog.change_post %}
                     <a href="{% url 'blog:activity' object.pk %}" class="btn btn-success px-md-4">Проставить активность</a>
+                    {% endif %}
                     {% endif %}
                     <hr>
                     <div class="row">
                         <div class="btn-group">
                             <a href="{% url 'blog:view' %}" class="btn btn-primary px-md-4"><- Назад</a>
+                            {% if perms.blog.change_post or user == object.author %}
                             <a href="{% url 'blog:update' object.pk %}" class="btn btn-success px-md-4">Изменить</a>
+                            {% endif %}
+                            {% if perms.blog.delete_post %}
                             <a href="{% url 'blog:delete' object.pk %}" class="btn btn-danger px-md-4">Удалить X</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

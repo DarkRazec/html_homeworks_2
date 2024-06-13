@@ -11,6 +11,7 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ('name', 'desc', 'image')
     template_name = 'blog/blog_form.html'
+    permission_required = 'blog.create_post'
     success_url = reverse_lazy('blog:view')
     extra_context = {
         'title': 'Блог: Создание новой статьи',
@@ -47,12 +48,14 @@ class BlogDetailView(DetailView):
 class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'blog/blog_confirm_delete.html'
+    permission_required = 'blog.delete_post'
     success_url = reverse_lazy("blog:view")
 
 
 class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ('name', 'desc', 'image')
+    permission_required = 'blog.change_post'
     template_name = 'blog/blog_form.html'
 
     def form_valid(self, form):

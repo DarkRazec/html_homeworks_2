@@ -1,9 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, TemplateView, CreateView, DeleteView, UpdateView
 
-from catalog.forms import ProductForm, VersionForm, VersionUpdateForm
+from catalog.forms import ProductForm, VersionForm, VersionUpdateForm, ModeratorForm
 from catalog.models import Product, Contact, Category, Version
 
 
@@ -22,9 +23,10 @@ class ProductDetailView(DetailView):
         return context_data
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.change_product'
     template_name = "catalog/product_update.html"
 
     def get_success_url(self):
@@ -50,10 +52,19 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return super().form_valid(form)
         return super().form_invalid(form)
 
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm('catalog.set_published') and user.has_perm('catalog.change_category'):
+            return ModeratorForm
+        elif user == self.object.author:
+            return self.form_class
+        return PermissionDenied
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
     template_name = "catalog/product_confirm_delete.html"
+    permission_required = 'catalog.delete_product'
     success_url = reverse_lazy('catalog:homepage')
 
 
@@ -61,6 +72,7 @@ class HomePageView(CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/homepage.html'
+    permission_required = 'catalog.delete_product'
     extra_context = {
         'category_list': Category.objects.all(),
         'title': 'Главная',

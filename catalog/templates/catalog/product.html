@@ -20,12 +20,16 @@
                         <div class="col-4">
                             <a href="{% url 'catalog:homepage' %}" class="btn btn-primary px-md-4"><- Назад</a>
                         </div>
+                        {% if perms.catalog.change_category or user == object.author %}
                         <div class="col-4">
                             <a href="{% url 'catalog:product_update' object.pk %}" class="btn btn-success px-md-4">Изменить</a>
                         </div>
+                        {% endif %}
+                        {% if perms.catalog.delete_product %}
                         <div class="col-4">
                             <a href="{% url 'catalog:product_delete' object.pk %}" class="btn btn btn-danger px-md-4">Удалить X</a>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
