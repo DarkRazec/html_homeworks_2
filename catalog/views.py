@@ -5,7 +5,8 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, TemplateView, CreateView, DeleteView, UpdateView
 
 from catalog.forms import ProductForm, VersionForm, VersionUpdateForm, ModeratorForm
-from catalog.models import Product, Contact, Category, Version
+from catalog.models import Product, Contact, Version
+from catalog.services import get_category_list
 
 
 class ProductDetailView(DetailView):
@@ -33,15 +34,15 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
         return reverse_lazy('catalog:product_view', args=[self.kwargs.get('pk')])
 
     def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         VersionFormset = inlineformset_factory(Product, Version, form=VersionUpdateForm, extra=1)
         if self.request.method == 'POST':
-            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
+            context['formset'] = VersionFormset(self.request.POST, instance=self.object)
         else:
-            context_data['formset'] = VersionFormset(instance=self.object)
-        context_data['category_list'] = Category.objects.all()
-        context_data['title'] = f'Редактирование: {self.object}'
-        return context_data
+            context['formset'] = VersionFormset(instance=self.object)
+        context['category_list'] = get_category_list()
+        context['title'] = f'Редактирование: {self.object}'
+        return context
 
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
@@ -74,20 +75,20 @@ class HomePageView(CreateView):
     template_name = 'catalog/homepage.html'
     permission_required = 'catalog.delete_product'
     extra_context = {
-        'category_list': Category.objects.all(),
         'title': 'Главная',
     }
     success_url = reverse_lazy('catalog:homepage')
 
     def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
         if self.request.method == 'POST':
-            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
+            context['formset'] = VersionFormset(self.request.POST, instance=self.object)
         else:
-            context_data['formset'] = VersionFormset(instance=self.object)
-        context_data['product_list'] = Product.objects.all()
-        return context_data
+            context['formset'] = VersionFormset(instance=self.object)
+        context['product_list'] = Product.objects.all()
+        context['category_list'] = get_category_list()
+        return context
 
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
